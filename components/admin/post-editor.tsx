@@ -29,7 +29,7 @@ export function PostEditor({ post, initialCategories, mode = "admin" }: Props) {
   const editorImageInput = useRef<HTMLInputElement>(null);
   const editor = useEditor({
     immediatelyRender: false,
-    extensions: [StarterKit, LinkExtension.configure({ openOnClick: false }), TiptapImage.configure({ inline: false })],
+    extensions: [StarterKit.configure({ link: false }), LinkExtension.configure({ openOnClick: false }), TiptapImage.configure({ inline: false })],
     content: post?.content && Object.keys(post.content).length ? post.content : post?.content_html || "<p></p>",
   });
 
@@ -79,7 +79,7 @@ export function PostEditor({ post, initialCategories, mode = "admin" }: Props) {
     });
     const payload = await response.json(); setSaving(false);
     if (!response.ok) return setError(payload.error || "Хадгалж чадсангүй");
-    router.push(mode === "admin" ? "/nuuts/admin/posts" : "/my-posts"); router.refresh();
+    router.push(mode === "admin" ? "/nuuts/admin/posts" : status === "published" ? "/?published=1#bolson-yavdal" : "/my-posts"); router.refresh();
   }
 
   return (
@@ -100,17 +100,17 @@ export function PostEditor({ post, initialCategories, mode = "admin" }: Props) {
         {coverImage ? <Image src={coverImage} alt="Cover preview" width={220} height={130} unoptimized /> : <span>Preview байхгүй</span>}
       </div>
       <div className="editor-shell">
-        <div className="editor-toolbar">
-          <button type="button" onClick={() => editor?.chain().focus().setParagraph().run()}>P</button>
-          <button type="button" onClick={() => editor?.chain().focus().toggleHeading({ level: 2 }).run()}>H2</button>
-          <button type="button" onClick={() => editor?.chain().focus().toggleHeading({ level: 3 }).run()}>H3</button>
-          <button type="button" onClick={() => editor?.chain().focus().toggleBold().run()}><b>B</b></button>
-          <button type="button" onClick={() => editor?.chain().focus().toggleItalic().run()}><i>I</i></button>
-          <button type="button" onClick={() => editor?.chain().focus().toggleBlockquote().run()}>Quote</button>
-          <button type="button" onClick={() => editor?.chain().focus().toggleBulletList().run()}>• List</button>
-          <button type="button" onClick={() => editor?.chain().focus().toggleOrderedList().run()}>1. List</button>
-          <button type="button" onClick={() => { const href = window.prompt("Link URL"); if (href) editor?.chain().focus().setLink({ href }).run(); }}>Link</button>
-          <button type="button" onClick={() => editorImageInput.current?.click()}>Image + caption</button>
+        <div className="editor-toolbar" aria-label="Нийтлэлийн формат">
+          <button type="button" className={editor?.isActive("paragraph") ? "active" : ""} title="Энгийн догол мөр" onClick={() => editor?.chain().focus().setParagraph().run()}>Энгийн текст</button>
+          <button type="button" className={editor?.isActive("heading", { level: 2 }) ? "active" : ""} title="Том гарчиг" onClick={() => editor?.chain().focus().toggleHeading({ level: 2 }).run()}>Том гарчиг</button>
+          <button type="button" className={editor?.isActive("heading", { level: 3 }) ? "active" : ""} title="Дэд гарчиг" onClick={() => editor?.chain().focus().toggleHeading({ level: 3 }).run()}>Дэд гарчиг</button>
+          <button type="button" className={editor?.isActive("bold") ? "active" : ""} title="Тод бичвэр" aria-label="Тод бичвэр" onClick={() => editor?.chain().focus().toggleBold().run()}><b>Тод</b></button>
+          <button type="button" className={editor?.isActive("italic") ? "active" : ""} title="Налуу бичвэр" aria-label="Налуу бичвэр" onClick={() => editor?.chain().focus().toggleItalic().run()}><i>Налуу</i></button>
+          <button type="button" className={editor?.isActive("blockquote") ? "active" : ""} onClick={() => editor?.chain().focus().toggleBlockquote().run()}>Ишлэл</button>
+          <button type="button" className={editor?.isActive("bulletList") ? "active" : ""} onClick={() => editor?.chain().focus().toggleBulletList().run()}>• Жагсаалт</button>
+          <button type="button" className={editor?.isActive("orderedList") ? "active" : ""} onClick={() => editor?.chain().focus().toggleOrderedList().run()}>1. Дугаартай</button>
+          <button type="button" onClick={() => { const href = window.prompt("Link URL"); if (href) editor?.chain().focus().setLink({ href }).run(); }}>Холбоос</button>
+          <button type="button" onClick={() => editorImageInput.current?.click()}>Зураг + тайлбар</button>
           <input ref={editorImageInput} hidden type="file" accept="image/jpeg,image/png,image/webp,image/gif" onChange={(event) => insertEditorImage(event.target.files?.[0])} />
         </div>
         <EditorContent editor={editor} />
@@ -123,6 +123,3 @@ export function PostEditor({ post, initialCategories, mode = "admin" }: Props) {
     </div>
   );
 }
-
-
-

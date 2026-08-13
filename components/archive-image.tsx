@@ -8,9 +8,10 @@ type ArchiveImageProps = {
   alt: string;
   priority?: boolean;
   sizes?: string;
+  preserveRatio?: boolean;
 };
 
-export function ArchiveImage({ src, alt, priority = false, sizes = "(max-width: 760px) 100vw, 33vw" }: ArchiveImageProps) {
+export function ArchiveImage({ src, alt, priority = false, sizes = "(max-width: 760px) 100vw, 33vw", preserveRatio = false }: ArchiveImageProps) {
   const [failed, setFailed] = useState(false);
 
   if (!src || failed) {
@@ -28,6 +29,13 @@ export function ArchiveImage({ src, alt, priority = false, sizes = "(max-width: 
       fill
       sizes={sizes}
       priority={priority}
+      onLoad={(event) => {
+        if (!preserveRatio) return;
+        const image = event.currentTarget;
+        if (image.naturalWidth && image.naturalHeight && image.parentElement) {
+          image.parentElement.style.aspectRatio = `${image.naturalWidth} / ${image.naturalHeight}`;
+        }
+      }}
       onError={() => setFailed(true)}
     />
   );
