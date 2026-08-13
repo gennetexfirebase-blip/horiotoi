@@ -7,8 +7,7 @@ import type { Article, ArticleSummary } from "@/lib/types";
 const dataRoot = path.join(process.cwd(), "data");
 
 function legacyDate(value: string) {
-  if (!value) return "2026-01-01";
-  return value.replace(/^\d{4}/, "2026");
+  return value || "Архивын нийтлэл";
 }
 
 function normalizeLegacySummary(article: ArticleSummary): ArticleSummary {

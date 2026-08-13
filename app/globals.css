@@ -1393,3 +1393,46 @@ img {
 @media(max-width:720px){.article-content{font-size:17px;line-height:1.82}.article-content h2{font-size:27px}.article-content h3{font-size:22px}.article-content blockquote{padding:15px 18px}}
 .archive-pagination{display:flex;align-items:center;justify-content:center;gap:14px;margin:68px auto 0;font-family:var(--sans)}.archive-pagination>button,.archive-pagination div button{min-width:38px;height:40px;display:inline-flex;align-items:center;justify-content:center;gap:5px;padding:0 11px;color:var(--ink);background:#fff;border:1px solid var(--line);font-size:11px;font-weight:700;cursor:pointer}.archive-pagination>button{min-width:94px}.archive-pagination div{display:flex;align-items:center;gap:5px}.archive-pagination div span{display:flex;align-items:center;gap:5px}.archive-pagination div i{padding:0 3px;color:var(--muted);font-style:normal}.archive-pagination div button.active{color:#fff;background:var(--red);border-color:var(--red)}.archive-pagination button:disabled{opacity:.38;cursor:not-allowed}.archive-pagination button:not(:disabled):hover{color:#fff;background:var(--ink);border-color:var(--ink)}
 @media(max-width:720px){.archive-pagination{gap:6px;margin-top:48px}.archive-pagination>button{min-width:42px;width:42px;padding:0;font-size:0}.archive-pagination>button svg{width:17px;height:17px}.archive-pagination div{gap:3px}.archive-pagination div button{min-width:34px;width:34px;height:38px;padding:0}.archive-pagination div span:nth-child(n+6):not(:last-child){display:none}}
+
+.share-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 24px;
+}
+
+.share-controls > span {
+  margin-right: 4px;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.share-controls button {
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 15px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--ink);
+  font: 700 11px/1 var(--sans);
+  cursor: pointer;
+  transition: background .2s ease, color .2s ease, border-color .2s ease;
+}
+
+.share-controls button:hover { border-color: var(--ink); }
+.share-controls .facebook-share { border-color: #1877f2; background: #1877f2; color: #fff; }
+.share-controls .facebook-share:hover { border-color: #0f66d8; background: #0f66d8; }
+
+@media (max-width: 520px) {
+  .share-controls > span { width: 100%; margin: 0 0 2px; }
+  .share-controls button { flex: 1 1 145px; padding-inline: 10px; }
+}
+.share-controls .facebook-mark { font: 800 20px/1 Arial, sans-serif; text-transform: lowercase; }
