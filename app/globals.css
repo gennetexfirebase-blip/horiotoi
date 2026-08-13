@@ -1534,3 +1534,22 @@ img {
   .editor-shell .ProseMirror img { max-height: 380px; }
 }
 .editor-toolbar button.active { color: #fff; background: var(--red); border-color: var(--red); }
+/* Keep pasted or unbroken text inside the story editor at every viewport. */
+.editor-shell {
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.editor-shell .ProseMirror,
+.editor-shell .ProseMirror * {
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere !important;
+  word-break: break-word;
+}
+
+.editor-shell .ProseMirror {
+  width: 100%;
+  overflow-x: hidden;
+}
