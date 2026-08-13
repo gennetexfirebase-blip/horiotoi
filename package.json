@@ -1,0 +1,38 @@
+{
+  "name": "horiotoi-archive",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "scrape": "node scripts/scrape-archive.mjs",
+    "typecheck": "tsc --noEmit",
+    "migrate:archive": "node scripts/migrate-archive-to-supabase.mjs"
+  },
+  "dependencies": {
+    "@clerk/nextjs": "^7.7.4",
+    "@supabase/supabase-js": "2.112.3",
+    "@tiptap/extension-image": "3.30.0",
+    "@tiptap/extension-link": "3.30.0",
+    "@tiptap/pm": "3.30.0",
+    "@tiptap/react": "3.30.0",
+    "@tiptap/starter-kit": "3.30.0",
+    "cheerio": "latest",
+    "lucide-react": "latest",
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "sharp": "^0.35.3",
+    "zod": "4.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "eslint": "latest",
+    "eslint-config-next": "latest",
+    "typescript": "latest"
+  }
+}

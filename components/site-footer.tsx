@@ -1,0 +1,1 @@
+export function SiteFooter() { const year = new Date().getFullYear(); return <footer className="site-footer revived-footer"><div className="shell"><span>Хориотойг дахин сэргээв</span><strong>{year} он</strong></div></footer>; }

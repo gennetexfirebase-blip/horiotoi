@@ -1,0 +1,18 @@
+node_modules/
+.next/
+out/
+.env*
+!.env.example
+npm-debug.log*
+archive-home.png
+data/raw/
+
+# clerk configuration (can include secrets)
+/.clerk/
+
+dev-*.png
+verify-*.png
+*.log
+*.tsbuildinfo
+home-final.png
+supabase/.temp/
