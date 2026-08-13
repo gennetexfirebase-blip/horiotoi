@@ -1,3 +1,4 @@
+import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/admin-auth";
 import { sanitizeCmsHtml } from "@/lib/sanitize-cms-html";
 import { postInputSchema } from "@/lib/post-schema";
@@ -8,7 +9,7 @@ export async function GET() {
     await requireAdmin();
     const supabase = getSupabaseAdmin();
     if (!supabase) return Response.json({ error: "Supabase тохиргоо дутуу" }, { status: 503 });
-    const { data, error } = await supabase.from("posts").select("*").order("updated_at", { ascending: false });
+    const { data, error } = await supabase.from("posts").select("*").is("legacy_id", null).order("updated_at", { ascending: false });
     if (error) throw error;
     return Response.json(data);
   } catch (error) {
@@ -31,6 +32,10 @@ export async function POST(request: Request) {
       author_email: admin.email, author_avatar: admin.user.imageUrl || "",
     }).select("*").single();
     if (error) throw error;
+    if (input.status === "published") {
+      revalidatePath("/");
+      revalidatePath("/archive");
+    }
     return Response.json(data, { status: 201 });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Нийтлэл хадгалж чадсангүй";

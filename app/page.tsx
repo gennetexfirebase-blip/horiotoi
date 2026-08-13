@@ -5,6 +5,8 @@ import { HeroCarousel } from "@/components/hero-carousel";
 import { getArticles, getCategories } from "@/lib/archive";
 import { formatDate, formatNumber } from "@/lib/format";
 
+export const dynamic = "force-dynamic";
+
 export default async function HomePage() {
   const articles = await getArticles(); const categories = getCategories(articles);
   const carousel = articles.slice(0, 4);

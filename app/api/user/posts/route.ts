@@ -1,3 +1,4 @@
+import { revalidatePath } from "next/cache";
 import { postInputSchema } from "@/lib/post-schema";
 import { sanitizeCmsHtml } from "@/lib/sanitize-cms-html";
 import { getSupabaseAdmin } from "@/lib/supabase-server";
@@ -26,7 +27,12 @@ export async function POST(request: Request) {
       status, published_at: status === "published" ? new Date().toISOString() : null,
       author_id: viewer.userId, author_name: viewer.profile.username, author_email: viewer.email, author_avatar: viewer.profile.avatar_url || "",
     }).select("*").single();
-    if (error) throw error; return Response.json(data, { status: 201 });
+    if (error) throw error;
+    if (status === "published") {
+      revalidatePath("/");
+      revalidatePath("/archive");
+    }
+    return Response.json(data, { status: 201 });
   } catch (error) { return Response.json({ error: error instanceof Error ? error.message : "Нийтлэл хадгалсангүй" }, { status: 400 }); }
 }
 

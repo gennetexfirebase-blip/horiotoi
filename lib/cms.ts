@@ -57,7 +57,7 @@ export async function getDatabaseComments(legacyId: string): Promise<Comment[]> 
 
 export async function getAdminPosts(): Promise<CmsPostRow[]> {
   const supabase = getSupabaseAdmin(); if (!supabase) return []; const rows: CmsPostRow[] = [];
-  for (let from = 0; ; from += PAGE_SIZE) { const { data, error } = await supabase.from("posts").select(SUMMARY_COLUMNS).order("updated_at", { ascending: false }).range(from, from + PAGE_SIZE - 1); if (error) return []; const batch = (data || []) as unknown as CmsPostRow[]; rows.push(...batch); if (batch.length < PAGE_SIZE) break; }
+  for (let from = 0; ; from += PAGE_SIZE) { const { data, error } = await supabase.from("posts").select(SUMMARY_COLUMNS).is("legacy_id", null).order("updated_at", { ascending: false }).range(from, from + PAGE_SIZE - 1); if (error) return []; const batch = (data || []) as unknown as CmsPostRow[]; rows.push(...batch); if (batch.length < PAGE_SIZE) break; }
   return rows;
 }
 export async function getAdminPost(id: string): Promise<CmsPostRow | null> { const supabase = getSupabaseAdmin(); if (!supabase) return null; const { data, error } = await supabase.from("posts").select("*").eq("id", id).maybeSingle(); return error ? null : (data as CmsPostRow | null); }
